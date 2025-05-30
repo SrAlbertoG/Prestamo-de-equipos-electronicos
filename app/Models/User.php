@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Role;
+use App\Models\State;
 
 class User extends Authenticatable
 {
@@ -17,10 +19,17 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+
+    protected $primaryKey = 'user_id';
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'user_name_1',
+        'user_name_2',
+        'user_lastname_1',
+        'user_lastname_2',
+        'user_email',
+        'user_password',
+        'user_rol',
+        'user_state'
     ];
 
     /**
@@ -29,7 +38,7 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $hidden = [
-        'password',
+        'user_password',
         'remember_token',
     ];
 
@@ -45,4 +54,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //Relacion de roles y usuarios
+
+    public function role(){
+        return $this->belongsTo(Role::class, 'user_rol', 'role_id');
+    }
+
+    public function state(){
+        return $this->belongsTo(State::class, 'user_state' , 'state_id');
+    }
+
 }
